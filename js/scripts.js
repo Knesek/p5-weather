@@ -1,23 +1,47 @@
+// Docs at http://simpleweatherjs.com
 $(document).ready(function() {
   $.simpleWeather({
+    woeid: '2357536', //2357536
     location: 'Spokane, WA',
-    woeid: '',
     unit: 'f',
-    
-    // if can get weather
     success: function(weather) {
-      html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.title+'&deg;'+weather.units.temp+'</h2>';
-     // html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
-     // html += '<li class="currently">'+weather.currently+'</li>';
-     // html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
+      html = '<h1>'+weather.city+', '+weather.region+'</h1>';
+      html += '<h2>'+weather.temp+'&deg;'+'</h2>';
+      html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
+      html += '<li class="currently">'+weather.currently+'</li>';
+      html += '<li>'+weather.alt.temp+'&deg;C</li></ul>';
+      
+      for(var i=0;i<weather.forecast.length;i++) {
+        html += '<p>'+weather.forecast[i].day;
+      }
+
+      for(var i=0;i<weather.forecast.length;i++) {
+        html += '<p>'+weather.forecast[i].high+'&deg;F</li></ul>'+'</p>';
+      }
+
+      if ("geolocation" in navigator) {
+  $('.js-geolocation').show(); 
+} else {
+  $('.js-geolocation').hide();
+}
+
+/* Where in the world are you? */
+$('.js-geolocation').on('click', function() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    loadWeather(position.coords.latitude+','+position.coords.longitude); //load weather using your lat/lng coordinates
+  });
+});
+
+
   
-    // PUT DISPLAY
       $("#weather").html(html);
     },
-
-    // if can't get weather
     error: function(error) {
       $("#weather").html('<p>'+error+'</p>');
     }
   });
+
+$('.img').foggy({
+   blurRadius: 1,         
+ }); 
 });
