@@ -7,9 +7,6 @@ $(document).ready(function() {
     success: function(weather) {
       html = '<h1>'+weather.city+', '+weather.region+'</h1>';
       html += '<h2>'+weather.temp+'&deg;'+'</h2>';
-      html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
-      html += '<li class="currently">'+weather.currently+'</li>';
-      html += '<li>'+weather.alt.temp+'&deg;C</li></ul>';
       
       for(var i=0;i<weather.forecast.length;i++) {
         html += '<p>'+weather.forecast[i].day;
@@ -17,6 +14,9 @@ $(document).ready(function() {
 
       for(var i=0;i<weather.forecast.length;i++) {
         html += '<p>'+weather.forecast[i].high+'&deg;F</li></ul>'+'</p>';
+      }
+      for(var i=0;i<weather.forecast.length;i++) {
+        html += '<p>'+weather.forecast[i].low+'&deg;F</li></ul>'+'</p>';
       }
 
       if ("geolocation" in navigator) {
@@ -42,6 +42,6 @@ $('.js-geolocation').on('click', function() {
   });
 
 $('.img').foggy({
-   blurRadius: 1,         
+   blurRadius: 1.5,         
  }); 
 });
